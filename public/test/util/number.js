@@ -1,10 +1,7 @@
 const
 	baseDir = "../../../..",
-	sharedDir = baseDir + "/nodecommon",
+	sharedDir = baseDir + "/node-common",
 	sharedHandlerDir = sharedDir + "/handlers",
-	sharedPublicDir = sharedDir + "/public",
-	facebook = require(sharedHandlerDir + "/facebook/facebook.js"),
-	faker = require(sharedPublicDir + "/test/util/faker.js"),
 	utils = require(sharedHandlerDir + "/util/common.js");
 
 utils.includeUtils();

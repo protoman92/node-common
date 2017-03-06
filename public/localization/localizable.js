@@ -1,14 +1,7 @@
 const strings = {
-	// Authentication strings
-	authErrorUnauthorized : "authErrorUnauthorized",
-
 	// User strings
 	userErrorDoesNotExist : "userErrorDoesNotExist",
-	userErrorIncomplete : "userErrorIncomplete",
-
-	// Wordpress strings
-	wordpressErrorNotAvailable : "wordpressErrorNotAvailable",
-	wordpressErrorTagNotFound : "wordpressErrorTagNotFound"
+	userErrorIncomplete : "userErrorIncomplete"
 };
 
 module.exports = strings;

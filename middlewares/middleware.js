@@ -1,6 +1,6 @@
 const
 	baseDir = "../..",
-	sharedDir = baseDir + "/nodecommon",
+	sharedDir = baseDir + "/node-common",
 	sharedHandlerDir = sharedDir + "/handlers",
 	sharedPublicDir = sharedDir + "/public",
 	localizer = require(sharedHandlerDir + "/localizer.js"),

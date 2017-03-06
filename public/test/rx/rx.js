@@ -1,7 +1,7 @@
 const 
 	rx = require("rx"),
 	baseDir = "../../../..",
-	sharedDir = baseDir + "/nodecommon",
+	sharedDir = baseDir + "/node-common",
 	sharedHandlerDir = sharedDir + "/handlers",
 	utils = require(sharedHandlerDir + "/util/common.js");
 
@@ -56,33 +56,13 @@ describe("Functionality Tests", function() {
 	);
 
 	it(
-		"Interval Test",
-		function(done) {
-			rx.Observable.interval(1000)
-				.subscribe(
-					function(val) {
-						console.log(val);
-					},
-
-					function(err) {
-						throw err;
-					},
-
-					function() {
-						done();
-					}
-				);
-		}
-	);
-
-	it.only(
 		"Emit-Resume Test",
 		function(done) {
 			const loop = function(val) {
 				return rx.Observable.just(++val)
 					.filter(val => val <= 10)
 					.emitThenResume(val => loop(val))
-					.delay(1000);
+					.delay(10);
 			};
 
 			loop(0).subscribe(

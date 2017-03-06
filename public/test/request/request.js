@@ -1,5 +1,4 @@
-const
-	request = require("request");
+const request = require("request");
 
 describe("Function Tests", function() {
 	this.timeout(100000);

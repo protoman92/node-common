@@ -1,6 +1,6 @@
 const
 	baseDir = "../../..",
-	shareDir = baseDir + "/nodecommon",
+	shareDir = baseDir + "/node-common",
 	sharedHandlerDir = shareDir + "/handlers",
 	utils = require(sharedHandlerDir + "/util/common.js");
 

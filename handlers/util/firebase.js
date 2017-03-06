@@ -1,8 +1,9 @@
 const
 	request = require("request"),
 	rx = require("rx"),
-	baseDir = "../..",
-	sharedHandlerDir = baseDir + "/handlers",
+	baseDir = "../../..",
+	sharedDir = baseDir + "/node-common",
+	sharedHandlerDir = sharedDir + "/handlers",
 	sharedUtilDir = sharedHandlerDir + "/util",
 	utils = require(sharedUtilDir + "/common.js"),
 	google = require(sharedUtilDir + "/google.js"),
@@ -20,9 +21,9 @@ exports.getGlobalJwtToken = function() {
 };
 
 /**
- * From a dictionary of key-value pairs that contains the data to update, we need to
- * construct a new dictionary with the keys appended by the rootPath, in order to update
- * certain data without overriding the whole node.
+ * From a dictionary of key-value pairs that contains the data to update, we 
+ * need to construct a new dictionary with the keys appended by the rootPath, 
+ * in order to update certain data without overriding the whole node.
  * @param  {String} rootPath The root path to prepend all keys.
  * @param  {object} update   The object parameter contains the data to update.
  * @return {object}          A new object with prepended keys.

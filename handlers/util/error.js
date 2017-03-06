@@ -1,7 +1,8 @@
 const 
 	status = require("http-status-codes"),
 	baseDir = "../../..",
-	environment = require(baseDir + "/nodecommon/handlers/util/environment.js");
+	sharedDir = baseDir + "/node-common",
+	environment = require(sharedDir + "/handlers/util/environment.js");
 
 Error.networkError = function(err, code) {
 	var 
