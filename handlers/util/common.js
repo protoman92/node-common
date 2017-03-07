@@ -75,8 +75,6 @@ exports.includeUtils = function() {
 	});
 };
 
-main.includeUtils();
-
 /**
  * Find all files with a certain name and emit then sequentially.
  * @param  {object} args This parameter must contain the filename key, and

@@ -113,3 +113,7 @@ Array.prototype.partition = function(cond) {
 
 	return [instance, instance];
 };
+
+Array.prototype.distinct = function() {
+	return Array.from(new Set(this));
+};
