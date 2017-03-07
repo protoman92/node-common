@@ -16,13 +16,3 @@ String.prototype.isEmail = function() {
 
   	return expression.test(this);
 };
-
-String.randomString = function(length) {
-	const all = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-	return new Array(length)
-		.fill("")
-		.map(val => Math.floor(Math.random() * all.length))
-		.map(index => all.charAt(index))
-		.join("");
-};

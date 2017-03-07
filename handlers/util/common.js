@@ -64,14 +64,17 @@ exports.getVersionNumber = function(text) {
 	return parseInt(regex[0]);
 };
 
-exports.includeUtils = function() {
+exports.includeUtils = function(args) {
 	const
 		fs = require("fs"),
-		utilsDir = __dirname,
-		files = fs.readdirSync(utilsDir);
+		utilsDir = (args || {}).directory || __dirname;
 
-	files.forEach(function(file, index) {
-		require(utilsDir + "/" + file);
+	fs.readdirSync(utilsDir).forEach(function(file, index) {
+		try {
+			require(((args || {}).prepend || utilsDir) + "/" + file);
+		} catch (e) {
+			main.log(e);
+		}		
 	});
 };
 
