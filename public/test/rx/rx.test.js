@@ -1,4 +1,3 @@
-const assert = require('chai').assert;
 const rx = require('rx');
 
 const baseDir = '../../../..';
@@ -98,7 +97,7 @@ describe('Functionality Tests', () => {
              * The last observable to emit value will be mirrored,
              * while all older ones are stopped halfway.
              */
-            assert.equal(val.length, 2 * end - start);
+            expect(val.length).toBe(2 * end - start);
           },
 
           (err) => {
@@ -150,7 +149,7 @@ describe('Functionality Tests', () => {
            * executed - because we placed a delay on the search
            * engine.
            */
-          assert.equal(val.length, totalCount);
+          expect(val.length).toBe(totalCount);
         })
         .subscribe(
           (val) => {
