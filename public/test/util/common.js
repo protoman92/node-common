@@ -1,14 +1,13 @@
-const
-	baseDir = "../../../..",
-	shareDir = baseDir + "/node-common",
-	sharedHandlerDir = shareDir + "/handlers",
-	utils = require(sharedHandlerDir + "/util/common.js");
+const baseDir = '../../../..';
+const shareDir = `${baseDir}/node-common`;
+const sharedHandlerDir = `${shareDir}/handlers`;
+const utils = require(`${sharedHandlerDir}/util/common.js`);
 
 const main = this;
 
-exports.includeUtils = function() {
-	utils.includeUtils({
-		directory : __dirname,
-		prepend : ""
-	})
+exports.includeUtils = function () {
+  utils.includeUtils({
+    directory: __dirname,
+    prepend: '',
+  });
 };
