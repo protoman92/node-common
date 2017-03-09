@@ -1,13 +1,13 @@
-const rx = require("rx");
+const rx = require('rx');
 
 /**
  * Continue another Observable if the current one is empty.
  * @param  {rx.Observable} obs An Observable object.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.switchIfEmpty = function(obs) {
-	const temp = this;
-	return this.isEmpty().concatMap(isEmpty => isEmpty ? obs : temp);
+rx.Observable.prototype.switchIfEmpty = function (obs) {
+  const temp = this;
+  return this.isEmpty().concatMap(isEmpty => isEmpty ? obs : temp);
 };
 
 /**
@@ -15,8 +15,8 @@ rx.Observable.prototype.switchIfEmpty = function(obs) {
  * @param  {object} err An error object.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.throwIfEmpty = function(err) {
-	return this.switchIfEmpty(rx.Observable.throw(err));
+rx.Observable.prototype.throwIfEmpty = function (err) {
+  return this.switchIfEmpty(rx.Observable.throw(err));
 };
 
 /**
@@ -24,24 +24,24 @@ rx.Observable.prototype.throwIfEmpty = function(err) {
  * @param  {object} value An object of any type.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.onErrorReturn = function(value) {
-	return this.onErrorResumeNext(rx.Observable.just(value));
+rx.Observable.prototype.onErrorReturn = function (value) {
+  return this.onErrorResumeNext(rx.Observable.just(value));
 };
 
 /**
  * Switch to an empty Observable if the current one throws an error.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.onErrorSwitchToEmpty = function() {
-	return this.onErrorResumeNext(rx.Observable.empty());
+rx.Observable.prototype.onErrorSwitchToEmpty = function () {
+  return this.onErrorResumeNext(rx.Observable.empty());
 };
 
 /**
  * Call toArray(), then iterate through all elements in the emitted Array.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.toArrayThenIterate = function() {
-	return this.toArray().flatMap(array => rx.Observable.from(array));
+rx.Observable.prototype.toArrayThenIterate = function () {
+  return this.toArray().flatMap(array => rx.Observable.from(array));
 };
 
 /**
@@ -49,50 +49,51 @@ rx.Observable.prototype.toArrayThenIterate = function() {
  * @param  {Function} fcn A function that returns an Observable to be resumed.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.emitThenResume = function(fcn) {
-	const instance = this;
+rx.Observable.prototype.emitThenResume = function (fcn) {
+  const instance = this;
 
-	if (Function.isInstance(fcn)) {
-		return this.flatMap(function(value) {
-			return rx.Observable.just(value).concat(fcn(value, instance))
-		});
-	}
+  if (Function.isInstance(fcn)) {
+    return this
+      .flatMap(value => rx.Observable
+        .just(value)
+        .concat(fcn(value, instance)));
+  }
 
-	const error = String(fcn) + " is not a function";
-	return rx.Observable.throw(error);
+  const error = `${String(fcn)} is not a function`;
+  return rx.Observable.throw(error);
 };
 
 /**
  * flatMap if a certain condition is satified, otherwise resume the current
  * stream.
  * @param  {Function} cond A function that returns a Boolean value.
- * @param  {Function} fcn1 A function that returns an Observable object to 
- * continue the stream. This function accepts two parameters, the first one 
- * being the current Observable object, and the second one being the value 
+ * @param  {Function} fcn1 A function that returns an Observable object to
+ * continue the stream. This function accepts two parameters, the first one
+ * being the current Observable object, and the second one being the value
  * being emitted by the current Observable object.
  * @param  {Function} fcn2 An optional function that returns an Observable.
  * Executed if the condition is not satisfied.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.flatMapIfSatisfied = function(cond, fcn1, fcn2) {
-	const instance = this;
+rx.Observable.prototype.flatMapIfSatisfied = function (cond, fcn1, fcn2) {
+  const instance = this;
 
-	if (Function.isInstance(cond, fcn1)) {
-		return instance.flatMap(function(val) {
-			const satisfied = Boolean.cast(cond(val));
+  if (Function.isInstance(cond, fcn1)) {
+    return instance.flatMap((val) => {
+      const satisfied = Boolean.cast(cond(val));
 
-			if (satisfied) {
-				return fcn1(val, instance);
-			} else if (Function.isInstance(fcn2)) {
-				return fcn2(val, instance);
-			} else {
-				return rx.Observable.just(val);
-			}
-		});
-	}
+      if (satisfied) {
+        return fcn1(val, instance);
+      } else if (Function.isInstance(fcn2)) {
+        return fcn2(val, instance);
+      }
 
-	const error = "Parameters must be functions";
-	return rx.Observable.throw(error);
+      return rx.Observable.just(val);
+    });
+  }
+
+  const error = 'Parameters must be functions';
+  return rx.Observable.throw(error);
 };
 
 /**
@@ -100,15 +101,13 @@ rx.Observable.prototype.flatMapIfSatisfied = function(cond, fcn1, fcn2) {
  * @param  {Function} fcn This must be a function that returns a Node callback.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.fromNodeCallback = function(fcn) {
-	if (Function.isInstance(fcn)) {
-		return this.flatMap(function(val) {
-			return rx.Observable.fromNodeCallback(fcn(val))
-		});
-	}
+rx.Observable.prototype.fromNodeCallback = function (fcn) {
+  if (Function.isInstance(fcn)) {
+    return this.flatMap(val => rx.Observable.fromNodeCallback(fcn(val)));
+  }
 
-	const error = String(fcn) + " is not a function";
-	return rx.Observable.throw(error);
+  const error = `${String(fcn)} is not a function`;
+  return rx.Observable.throw(error);
 };
 
 /**
@@ -116,15 +115,15 @@ rx.Observable.prototype.fromNodeCallback = function(fcn) {
  * @param  {Function} fcn This must be a function that returns a Node callback.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.create = function(fcn) {
-	if (Function.isInstance(fcn)) {
-		return this.flatMap(function(val) {
-			return rx.Observable.create(observer => fcn(val, observer));
-		});
-	}
+rx.Observable.prototype.create = function (fcn) {
+  if (Function.isInstance(fcn)) {
+    return this
+      .flatMap(val => rx.Observable
+        .create(observer => fcn(val, observer)));
+  }
 
-	const error = String(fcn) + " is not a function";
-	return rx.Observable.throw(error);
+  const error = `${String(fcn)} is not a function`;
+  return rx.Observable.throw(error);
 };
 
 /**
@@ -133,11 +132,11 @@ rx.Observable.prototype.create = function(fcn) {
  * error as a parameter, and returns a value.
  * @return {rx.Observable} An Observable object.
  */
-rx.Observable.prototype.catchThenReturn = function(fcn) {
-	if (Function.isInstance(fcn)) {
-		return this.catch(err => rx.Observable.just(fcn(err)));
-	}
+rx.Observable.prototype.catchThenReturn = function (fcn) {
+  if (Function.isInstance(fcn)) {
+    return this.catch(err => rx.Observable.just(fcn(err)));
+  }
 
-	const error = String(fcn) + " is not a function";
-	return rx.Observable.throw(err);
+  const error = `${String(fcn)} is not a function`;
+  return rx.Observable.throw(error);
 };

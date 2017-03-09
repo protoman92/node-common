@@ -10,6 +10,8 @@ const utils = require(`${sharedHandlerDir}/util/common.js`);
 
 utils.includeUtils({});
 
+const timeout = 1000000;
+
 describe('Functionality Tests', () => {
   it(
     'Reduce Test',
@@ -31,7 +33,7 @@ describe('Functionality Tests', () => {
             done();
           },
         );
-    });
+    }, timeout);
 
   it(
     'Retry Test',
@@ -53,7 +55,7 @@ describe('Functionality Tests', () => {
             done();
           },
         );
-    });
+    }, timeout);
 
   it(
     'Emit-Resume Test',
@@ -75,9 +77,10 @@ describe('Functionality Tests', () => {
         },
 
         () => {
+          console.log(done);
           done();
         });
-    });
+    }, timeout);
 
   it(
     'SwitchMap test',
@@ -98,14 +101,16 @@ describe('Functionality Tests', () => {
             assert.equal(val.length, 2 * end - start);
           },
 
-          (err) => {},
+          (err) => {
+            throw err;
+          },
 
           () => {
             done();
           });
-    });
+    }, timeout);
 
-  it.only(
+  it(
     'SwitchMap test for autocomplete search',
     (done) => {
       const totalCount = 1000;
@@ -159,5 +164,5 @@ describe('Functionality Tests', () => {
           () => {
             done();
           });
-    });
+    }, timeout);
 });

@@ -1,4 +1,8 @@
-const main = this;
+const baseDir = '../../..';
+const sharedDir = `${baseDir}/node-common`;
+const utils = require(`${sharedDir}/handlers/util/common.js`);
+
+const main = exports;
 
 exports.isInstance = function (args, fcn) {
   let condition;
@@ -9,49 +13,47 @@ exports.isInstance = function (args, fcn) {
     condition = val => typeof (val) === fcn;
   }
 
-  for (const i in args) {
-    if (condition(args[i]) !== true) {
-      return false;
-    }
+  if (args instanceof Array) {
+    return args.every(condition);
   }
 
-  return true;
+  return utils.getValues(args).every(condition);
 };
 
-Boolean.isInstance = function () {
-  return main.isInstance(arguments, 'boolean');
+Boolean.isInstance = function (...args) {
+  return main.isInstance(args, 'boolean');
 };
 
 Boolean.cast = function (value) {
   if (Boolean.isInstance(value)) {
     return value;
   } else if (String.isInstance(value)) {
-    return value == 'true' || !(value == 'false');
+    return value === 'true' || !(value === 'false');
   }
 
   return false;
 };
 
-Error.isInstance = function () {
-  return main.isInstance(arguments, value => value instanceof Error);
+Error.isInstance = function (...args) {
+  return main.isInstance(args, value => value instanceof Error);
 };
 
-Function.isInstance = function () {
-  return main.isInstance(arguments, 'function');
+Function.isInstance = function (...args) {
+  return main.isInstance(args, 'function');
 };
 
-Number.isInstance = function () {
-  return main.isInstance(arguments, 'number');
+Number.isInstance = function (...args) {
+  return main.isInstance(args, 'number');
 };
 
-Object.isInstance = function () {
-  return main.isInstance(arguments, 'object');
+Object.isInstance = function (...args) {
+  return main.isInstance(args, 'object');
 };
 
-String.isInstance = function () {
-  return main.isInstance(arguments, 'string');
+String.isInstance = function (...args) {
+  return main.isInstance(args, 'string');
 };
 
-Array.isInstance = function () {
-  return main.isInstance(arguments, value => value instanceof Array);
+Array.isInstance = function (...args) {
+  return main.isInstance(args, value => value instanceof Array);
 };
