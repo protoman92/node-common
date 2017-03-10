@@ -16,7 +16,8 @@ rx.Observable.prototype.switchIfEmpty = function (obs) {
  * @return {rx.Observable} An Observable object.
  */
 rx.Observable.prototype.throwIfEmpty = function (err) {
-  return this.switchIfEmpty(rx.Observable.throw(err));
+  const error = Error.isInstance(err) ? err : new Error(err);
+  return this.switchIfEmpty(rx.Observable.throw(error));
 };
 
 /**
