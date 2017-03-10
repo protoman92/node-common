@@ -2,8 +2,10 @@ const rx = require('rx');
 
 const baseDir = '../../..';
 const sharedDir = `${baseDir}/node-common`;
+const sharedUtilDir = __dirname;
 const sharedPublicDir = `${sharedDir}/public`;
 const sharedLocalizationDir = `${sharedPublicDir}/localization`;
+const typeChecker = require(`${sharedUtilDir}/type.js`);
 
 const main = exports;
 
@@ -25,6 +27,36 @@ exports.getValues = function (object) {
   return Object.values(object);
 };
 
+/**
+ * Get all values of a that satisfies a certain condition.
+ * @param  {object} object The object to be inspected.
+ * @param  {object} cond The boolean-producing condition.
+ * @return {Array} An array of objects that satisfies the condition.
+ */
+exports.findObjectsWithCondition = function (object, cond) {
+  return main.getValues(object)
+    .map((inner) => {
+      if (Function.isInstance(cond) && cond(inner)) {
+        return [inner];
+      }
+
+      return main.findObjectsWithCondition(inner, cond);
+    })
+    .reduce((a, b) => a.concat(b), []);
+};
+
+/**
+ * Get all values of a certain type from an Object. This can be useful in
+ * tests where we need to recursively check an object for methods to restore
+ * from stubs.
+ * @param  {object} object The object to be inspected.
+ * @param  {object} type The type to be checked against.
+ * @return {Array} An array of objects that are of a particular type.
+ */
+exports.findObjectsOfType = function (object, type) {
+  return main.findObjectsWithCondition(object, value => value instanceof type);
+};
+
 exports.isEmpty = function (object) {
   return main.getKeys(object).length === 0;
 };
@@ -39,9 +71,9 @@ exports.getLanguage = function (req) {
 
   if (req && req.headers) {
     return req.headers['accept-language'] || defValue;
-  } else {
-    return defValue;
   }
+
+  return defValue;
 };
 
 exports.getVersionNumber = function (text) {

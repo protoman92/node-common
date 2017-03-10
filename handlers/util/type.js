@@ -14,10 +14,19 @@ exports.isInstance = function (args, fcn) {
   }
 
   if (args instanceof Array) {
+    /**
+     * With rest parameters (e.g. ...args), the passed parameter is an Array.
+     */
     return args.every(condition);
+  } else if (utils.getKeys(args).includes('0')) {
+    /**
+     * Backward-compatible case whereby the passed arguments parameter
+     * contains stringified integer keys.
+     */
+    return utils.getValues(args).every(condition);
   }
 
-  return utils.getValues(args).every(condition);
+  return condition(args);
 };
 
 Boolean.isInstance = function (...args) {

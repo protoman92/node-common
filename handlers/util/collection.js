@@ -1,119 +1,116 @@
-const
-	baseDir = "../../..",
-	shareDir = baseDir + "/node-common",
-	sharedHandlerDir = shareDir + "/handlers",
-	utils = require(sharedHandlerDir + "/util/common.js");
+const baseDir = '../../..';
+const shareDir = `${baseDir}/node-common`;
+const sharedHandlerDir = `${shareDir}/handlers`;
+const utils = require(`${sharedHandlerDir}/util/common.js`);
 
-Array.prototype.first = function(args) {
-	if (args && Function.isInstance(args.condition)) {
-		const cond = args.condition;
+Array.prototype.first = function (args) {
+  if (args && Function.isInstance(args.condition)) {
+    const cond = args.condition;
 
-		for (var i = 0, length = this.length; i < length; i++) {
-			const value = this[i];
+    for (let i = 0, length = this.length; i < length; i++) {
+      const value = this[i];
 
-			if (value && cond(value) == true) {
-				return value;
-			}
-		}
+      if (value && cond(value) === true) {
+        return value;
+      }
+    }
 
-		return args.default;
-	} else {
-		return utils.concreteValue(this[0], (args || {}).default);
-	}
+    return args.default;
+  } else {
+    return utils.concreteValue(this[0], (args || {}).default);
+  }
 };
 
-Array.prototype.last = function(args) {
-	const length = this.length;
+Array.prototype.last = function (args) {
+  const length = this.length;
 
-	if (args && Function.isInstance(args.condition)) {
-		const cond = args.condition;
+  if (args && Function.isInstance(args.condition)) {
+    const cond = args.condition;
 
-		for (var i = length - 1; i >= 0; i--) {
-			const value = this[i];
+    for (let i = length - 1; i >= 0; i--) {
+      const value = this[i];
 
-			if (value && cond(value) == true) {
-				return value;
-			} 
-		}
+      if (value && cond(value) === true) {
+        return value;
+      }
+    }
 
-		return args.default;
-	} else {
-		return utils.concreteValue(this[length - 1], (args || {}).default);
-	}
+    return args.default;
+  } else {
+    return utils.concreteValue(this[length - 1], (args || {}).default);
+  }
 };
 
-Array.prototype.contains = function(args) {
-	var condition;
+Array.prototype.contains = function (args) {
+  let condition;
 
-	if (Function.isInstance(args)) {
-		condition = args;
-	} else {
-		condition = val => val == args;
-	}
+  if (Function.isInstance(args)) {
+    condition = args;
+  } else {
+    condition = val => val === args;
+  }
 
-	for (var i = 0, length = this.length; i < length; i++) {
-		if (condition(this[i]) == true) {
-			return true;
-		}
-	}
+  for (let i = 0, length = this.length; i < length; i++) {
+    if (condition(this[i]) === true) {
+      return true;
+    }
+  }
 
-	return false;
+  return false;
 };
 
-Array.prototype.addUnique = function(item) {
-	if (!this.contains(item)) {
-		return this.push(item);
-	} else {
-		return 0;
-	}
+Array.prototype.addUnique = function (item) {
+  if (!this.contains(item)) {
+    return this.push(item);
+  } else {
+    return 0;
+  }
 };
 
-Array.prototype.concatUnique = function(items) {
-	var added = 0;
+Array.prototype.concatUnique = function (items) {
+  let added = 0;
 
-	if (Array.isInstance(items)) {
-		for (var i = 0, length = items.length; i < length; i++) {
-			added += this.addUnique(items[i]);
-		}
-	}
+  if (Array.isInstance(items)) {
+    for (let i = 0, length = items.length; i < length; i++) {
+      added += this.addUnique(items[i]);
+    }
+  }
 
-	return added;
+  return added;
 };
 
-Array.prototype.clone = function() {
-	return this.filter(val => true);
+Array.prototype.clone = function () {
+  return this.filter(() => true);
 };
 
-Array.prototype.randomIndex = function() {
-	return Math.floor(Math.random() * this.length);
+Array.prototype.randomIndex = function () {
+  return Math.floor(Math.random() * this.length);
 };
 
-Array.prototype.randomValue = function() {
-	return this[this.randomIndex()];
+Array.prototype.randomValue = function () {
+  return this[this.randomIndex()];
 };
 
-Array.prototype.isEmpty = function() {
-	return this.length == 0;
+Array.prototype.isEmpty = function () {
+  return this.length === 0;
 };
 
-Array.prototype.isNotEmpty = function() {
-	return !this.isEmpty();
+Array.prototype.isNotEmpty = function () {
+  return !this.isEmpty();
 };
 
-Array.prototype.partition = function(cond) {
-	const instance = this.clone();
+Array.prototype.partition = function (cond) {
+  const instance = this.clone();
 
-	if (Function.isInstance(cond)) {
-		const 
-			satisfied = instance.filter(val => Boolean.cast(cond(val))),
-			remaining = instance.filter(val => !Boolean.cast(cond(val)));
+  if (Function.isInstance(cond)) {
+    const satisfied = instance.filter(val => Boolean.cast(cond(val)));
+    const remaining = instance.filter(val => !Boolean.cast(cond(val)));
+    return [satisfied, remaining];
+  }
 
-		return [satisfied, remaining];
-	}
-
-	return [instance, instance];
+  return [instance, instance];
 };
 
-Array.prototype.distinct = function() {
-	return Array.from(new Set(this));
+Array.prototype.distinct = function () {
+  return Array.from(new Set(this));
 };
