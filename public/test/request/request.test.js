@@ -1,8 +1,8 @@
 const request = require('request');
 
-describe('Function Tests', function () {
-  this.timeout(100000);
+const requestTimeout = 100000;
 
+describe('Function Tests', () => {
   it(
     'Head requests should return correct headers',
     (done) => {
@@ -14,5 +14,5 @@ describe('Function Tests', function () {
           done();
         },
       );
-    });
+    }, requestTimeout);
 });
