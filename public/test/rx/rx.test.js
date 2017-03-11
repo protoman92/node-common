@@ -164,4 +164,20 @@ describe('Functionality Tests', () => {
             done();
           });
     }, timeout);
+
+  it.only(
+    'Range test',
+    (done) => {
+      rx.Observable.range(1)
+        .doOnNext((val) => {
+          console.log(val);
+        })
+        .subscribe(
+          () => {},
+          () => {},
+          () => {
+            done();
+          },
+        );
+    }, timeout);
 });

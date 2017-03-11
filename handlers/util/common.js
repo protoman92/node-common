@@ -5,7 +5,6 @@ const sharedDir = `${baseDir}/node-common`;
 const sharedUtilDir = __dirname;
 const sharedPublicDir = `${sharedDir}/public`;
 const sharedLocalizationDir = `${sharedPublicDir}/localization`;
-const typeChecker = require(`${sharedUtilDir}/type.js`);
 
 const main = exports;
 
@@ -25,6 +24,10 @@ exports.getKeys = function (object) {
 
 exports.getValues = function (object) {
   return Object.values(object);
+};
+
+exports.getEntries = function (object) {
+  return Object.entries(object);
 };
 
 /**
