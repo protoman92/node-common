@@ -2,7 +2,6 @@ const rx = require('rx');
 
 const baseDir = '../../..';
 const sharedDir = `${baseDir}/node-common`;
-const sharedUtilDir = __dirname;
 const sharedPublicDir = `${sharedDir}/public`;
 const sharedLocalizationDir = `${sharedPublicDir}/localization`;
 
@@ -84,6 +83,11 @@ exports.getVersionNumber = function (text) {
   return parseInt(regex[0], 10);
 };
 
+/**
+ * Include all util files within a certain directory, or the current directory.
+ * @param  {object} args This parameter may contain the directory key, which
+ * identifies a directory with utility files to include.
+ */
 exports.includeUtils = function (args) {
   const fs = require('fs');
   const utilsDir = (args || {}).directory || __dirname;
@@ -142,12 +146,19 @@ exports.findFilesWithName = function (args) {
       .flatMapIfSatisfied(
         val => val === args.filename,
 
-        (val, obs) => {
-          const file = [baseDir, path, val].join('/');
-          return rx.Observable.just(require(file));
+        (val) => {
+          const filePath = [baseDir, path, val].join('/');
+
+          try {
+            const file = require(filePath);
+            return rx.Observable.just(file);
+          } catch (e) {
+            return rx.Observable.empty();
+          }
         },
 
-        (val, obs) => readFilesUntilDone(`${path}/${val}`, args));
+        val => readFilesUntilDone(`${path}/${val}`, args))
+      .onErrorSwitchToEmpty();
     };
 
     return readFilesUntilDone('.', args);
@@ -210,6 +221,55 @@ exports.hasConcreteValue = function (val) {
 
 exports.concreteValue = function (val, def) {
   return main.hasConcreteValue(val) ? val : def;
+};
+
+/**
+ * Create an {@link Array} from another object, each of whose keys represents
+ * an {@link Array} of values.
+ * @param  {object} args This parameter must contain a list of keys, each of
+ * which represents an {@link Array} of values.
+ * @return {Array} An Array of objects.
+ */
+exports.oneForEach = function (args) {
+  const entries = main.getEntries(args);
+
+  const iterateUntilDone = function (index) {
+    const entry = entries[index];
+
+    if (entry && entry.length === 2) {
+      const key = entry[0];
+      const value = entry[1];
+
+      if (String.isInstance(key) && Array.isInstance(value)) {
+        const nextItem = iterateUntilDone(index + 1);
+
+        const currentItem = value
+          .map((item) => {
+            const obj = {};
+            obj[key] = item;
+
+            if (nextItem && nextItem.map) {
+              return nextItem
+                /**
+                 * We must not use Object.assign(nItem, obj) or else the
+                 * assigned object carry over to the next iteration (since
+                 * object are by reference)
+                 */
+                .map(nItem => Object.assign({}, nItem, obj));
+            }
+
+            return obj;
+          })
+          .reduce((a, b) => a.concat(b), []);
+
+        return currentItem;
+      }
+    }
+
+    return {};
+  };
+
+  return iterateUntilDone(0);
 };
 
 exports.log = function (...args) {
