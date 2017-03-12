@@ -1,6 +1,8 @@
 const utils = require('../../../handlers/util/common.js');
+const testUtils = require('../util/common.js');
 
 utils.includeUtils();
+testUtils.includeUtils();
 
 describe('Utitlity tests', () => {
   it(
@@ -18,13 +20,25 @@ describe('Utitlity tests', () => {
 
       expect(obj.length).toBe(totalLength);
     });
+
+  it(
+    'RangeRandomBetweenTest',
+    () => {
+      const count = 1000;
+      const from = 1000;
+      const to = 5000;
+      const numbers = Number.rangeRandomBetween(count, from, to);
+      expect(numbers.length).toBe(count);
+      expect(numbers.every(val => val >= from && val <= to)).toBe(true);
+    },
+  );
 });
 
 /**
  * Run with Mocha.
  */
 describe('Backward compatibility tests', () => {
-  it.only(
+  it(
     'Destructuring test',
     () => {
       const args = { a: 1, b: 2 };

@@ -1,110 +1,105 @@
-Number.randomBetween = function(from, to) {
-	return Math.floor(Math.random() * to) + from;
+Number.range = function (...args) {
+  let from;
+  let to;
+
+  if (Number.isInstance(args[0])) {
+    if (Number.isInstance(args[1])) {
+      from = parseInt(args[0], 10);
+      to = parseInt(args[1], 10);
+    } else {
+      from = 0;
+      to = parseInt(args[0], 10);
+    }
+  } else {
+    from = 0;
+    to = 0;
+  }
+
+  from = Math.max(0, from);
+  to = Math.max(from + 1, to);
+  const array = [];
+
+  for (let i = 0; i < to - from; i++) {
+    array.push(from + i);
+  }
+
+  return array;
 };
 
-Number.range = function() {
-	var from, to;
+Math.sum = function (...args) {
+  if (Array.isInstance(args[0])) {
+    const array = args[0];
+    const sum = array.reduce((a, b) => a + b, 0);
+    return Number.isInstance(sum) ? sum : 0;
+  }
 
-	if (Number.isInstance(arguments[0])) {
-		if (Number.isInstance(arguments[1])) {
-			from = parseInt(arguments[0]);
-			to = parseInt(arguments[1]);
-		} else {
-			from = 0;
-			to = parseInt(arguments[0]);
-		}
-	} else {
-		from = 0;
-		to = 0;
-	}
-
-	from = Math.max(0, from);
-	to = Math.max(from + 1, to);
-	var array = [];
-
-	for (var i = 0; i < to - from; i++) {
-		array.push(from + i);
-	}
-
-	return array;
+  return 0;
 };
 
-Math.sum = function() {
-	if (Array.isInstance(arguments[0])) {
-		const 
-			array = arguments[0],
-			sum = array.reduce((a, b) => a + b, 0);
+Math.mean = function (...args) {
+  if (Array.isInstance(args[0])) {
+    const array = args[0];
 
-		return Number.isInstance(sum) ? sum : 0;
-	}
+    if (array.length) {
+      return Math.sum(array) / array.length;
+    }
+  }
 
-	return 0;
+  return 0;
 };
 
-Math.mean = function() {
-	if (Array.isInstance(arguments[0])) {
-		const array = arguments[0];
+Math.median = function (...args) {
+  if (Array.isInstance(args[0])) {
+    const array = args[0].sort((a, b) => {
+      if (Number.isInstance(a, b)) {
+        return a - b;
+      }
 
-		if (array.length) {
-			return Math.sum(array) / array.length;
-		}
-	}
+      return -1;
+    });
 
-	return 0;
+    return array[Math.floor(array.length / 2)];
+  }
+
+  return 0;
 };
 
-Math.median = function() {
-	if (Array.isInstance(arguments[0])) {
-		const array = arguments[0].sort(function(a, b) {
-			if (Number.isInstance(a, b)) {
-				return a - b;
-			} else {
-				return -1;
-			}
-		});
+Math.minimum = function (...args) {
+  if (Array.isInstance(args[0])) {
+    const array = args[0];
 
-		return array[Math.floor(array.length / 2)];
-	}
+    let min = Infinity;
 
-	return 0;
+    for (let i = 0, length = array.length; i < length; i++) {
+      const val = array[i];
+
+      if (Number.isInstance(val) && val < min) {
+        min = val;
+      }
+    }
+
+    return min;
+  }
+
+  return Math.min(args);
 };
 
-Math.minimum = function() {
-	if (Array.isInstance(arguments[0])) {
-		const array = arguments[0];
+Math.maximum = function (...args) {
+  if (Array.isInstance(args[0])) {
+    const array = args[0];
 
-		var min = Infinity;
+    let max = 0;
 
-		for (var i = 0, length = array.length; i < length; i++) {
-			const val = array[i];
+    for (let i = 0, length = array.length; i < length; i++) {
+      const val = array[i];
 
-			if (Number.isInstance(val) && val < min) {
-				min = val;
-			}
-		}
+      if (Number.isInstance(val) && val > max) {
+        max = val;
+      }
+    }
 
-		return min;
-	}
+    return max;
+  }
 
-	return Math.min(arguments);
-};
-
-Math.maximum = function() {
-	if (Array.isInstance(arguments[0])) {
-		const array = arguments[0];
-
-		var max = 0;
-
-		for (var i = 0, length = array.length; i < length; i++) {
-			const val = array[i];
-
-			if (Number.isInstance(val) && val > max) {
-				max = val;
-			}
-		}
-
-		return max;
-	}
-
-	return Math.max(arguments);
+  return Math.max(args);
 };

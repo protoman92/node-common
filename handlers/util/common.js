@@ -60,6 +60,10 @@ exports.findObjectsOfType = function (object, type) {
 };
 
 exports.isEmpty = function (object) {
+  if (main.hasConcreteValue(object) && main.hasConcreteValue(object.length)) {
+    return object.length > 0;
+  }
+
   return main.getKeys(object).length === 0;
 };
 

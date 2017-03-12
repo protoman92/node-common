@@ -1,4 +1,4 @@
-exports.isDebugging = function() {
-	const env = process.env.NODE_ENV || "development";
-	return env === "development";
+exports.isDebugging = function () {
+  const env = process.env.NODE_ENV || 'development';
+  return env === 'development';
 };
