@@ -1,9 +1,6 @@
 const rx = require('rx');
 
-const baseDir = '../../..';
-const sharedDir = `${baseDir}/node-common`;
-const sharedPublicDir = `${sharedDir}/public`;
-const sharedLocalizationDir = `${sharedPublicDir}/localization`;
+const { languages } = require('../../public/localization/languages.js');
 
 const main = exports;
 
@@ -72,7 +69,6 @@ exports.isNotEmpty = function (object) {
 };
 
 exports.getLanguage = function (req) {
-  const languages = require(`${sharedLocalizationDir}/languages.js`);
   const defValue = languages.EN_US.value;
 
   if (req && req.headers) {
@@ -234,7 +230,7 @@ exports.concreteValue = function (val, def) {
  * which represents an {@link Array} of values.
  * @return {Array} An Array of objects.
  */
-exports.oneForEach = function (args) {
+exports.oneFromEach = function (args) {
   const entries = main.getEntries(args);
 
   const iterateUntilDone = function (index) {

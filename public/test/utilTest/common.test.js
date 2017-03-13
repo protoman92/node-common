@@ -12,7 +12,7 @@ describe('Utitlity tests', () => {
       const b = Number.range(a.last() + 1, a.last() + a.length + 2);
       const c = Number.range(b.last() + 1, b.last() + b.length + 2);
       const args = { a, b, c };
-      const obj = utils.oneForEach(args);
+      const obj = utils.oneFromEach(args);
 
       const totalLength = utils
         .getValues(args)

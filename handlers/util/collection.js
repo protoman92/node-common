@@ -1,7 +1,4 @@
-const baseDir = '../../..';
-const shareDir = `${baseDir}/node-common`;
-const sharedHandlerDir = `${shareDir}/handlers`;
-const utils = require(`${sharedHandlerDir}/util/common.js`);
+const { utils } = require('.');
 
 Array.prototype.first = function (args) {
   if (args && Function.isInstance(args.condition)) {
@@ -62,9 +59,9 @@ Array.prototype.contains = function (args) {
 Array.prototype.addUnique = function (item) {
   if (!this.contains(item)) {
     return this.push(item);
-  } else {
-    return 0;
   }
+
+  return 0;
 };
 
 Array.prototype.concatUnique = function (items) {

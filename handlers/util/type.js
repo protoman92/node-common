@@ -1,6 +1,4 @@
-const baseDir = '../../..';
-const sharedDir = `${baseDir}/node-common`;
-const utils = require(`${sharedDir}/handlers/util/common.js`);
+const { utils } = require('.');
 
 const main = exports;
 
