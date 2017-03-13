@@ -1,7 +1,7 @@
 const faker = require('faker');
 const uuid = require('uuid/v4');
 
-const main = this;
+const main = exports;
 
 exports.amount = function () {
   return parseFloat(faker.finance.amount());

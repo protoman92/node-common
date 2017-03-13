@@ -1,7 +1,4 @@
-const baseDir = '../../..';
-const sharedDir = `${baseDir}/node-common`;
-const sharedHandlerDir = `${sharedDir}/handlers`;
-const utils = require(`${sharedHandlerDir}/util/common.js`);
+const { utils } = require('../../../node-common/handlers/util/common.js');
 
 const languages = {
   fromValue(args) {

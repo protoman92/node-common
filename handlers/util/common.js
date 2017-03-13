@@ -1,3 +1,4 @@
+const fs = require('fs');
 const rx = require('rx');
 
 const { languages } = require('../../public/localization/languages.js');
@@ -89,7 +90,6 @@ exports.getVersionNumber = function (text) {
  * identifies a directory with utility files to include.
  */
 exports.includeUtils = function (args) {
-  const fs = require('fs');
   const utilsDir = (args || {}).directory || __dirname;
 
   fs.readdirSync(utilsDir).forEach((file) => {
@@ -127,7 +127,7 @@ exports.findFilesWithName = function (args) {
       .every(file => !new RegExp(`\w*${file}\w*`)
       .exec(val));
 
-    const readFilesUntilDone = function (path, args) {
+    const readFilesUntilDone = function (path, fileArgs) {
       return rx.Observable.create((observer) => {
         fs.readdir(path, (err, files) => {
           if (err) {
@@ -144,7 +144,7 @@ exports.findFilesWithName = function (args) {
       .retry(2)
       .onErrorSwitchToEmpty()
       .flatMapIfSatisfied(
-        val => val === args.filename,
+        val => val === fileArgs.filename,
 
         (val) => {
           const filePath = [baseDir, path, val].join('/');
@@ -157,7 +157,7 @@ exports.findFilesWithName = function (args) {
           }
         },
 
-        val => readFilesUntilDone(`${path}/${val}`, args))
+        val => readFilesUntilDone(`${path}/${val}`, fileArgs))
       .onErrorSwitchToEmpty();
     };
 
