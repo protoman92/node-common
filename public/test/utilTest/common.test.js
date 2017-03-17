@@ -1,8 +1,4 @@
-const utils = require('../../../handlers/util/common.js');
-const testUtils = require('../util/common.js');
-
-utils.includeUtils();
-testUtils.includeUtils();
+const { utils } = require('../../../lib/util');
 
 describe('Utitlity tests', () => {
   it(

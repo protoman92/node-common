@@ -1,10 +1,3 @@
-const baseDir = '../../../..';
-const sharedDir = `${baseDir}/node-common`;
-const sharedHandlerDir = `${sharedDir}/handlers`;
-const utils = require(`${sharedHandlerDir}/util/common.js`);
-
-utils.includeUtils();
-
 /**
  * Produce a {@link Number} that lies between two specific
  * values.

@@ -1,4 +1,4 @@
-const { utils } = require('../../../node-common/handlers/util/common.js');
+const { utils } = require('../../lib/util/common.js');
 
 const languages = {
   fromValue(args) {

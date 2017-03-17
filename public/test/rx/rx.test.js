@@ -1,13 +1,6 @@
 const rx = require('rx');
 
-const baseDir = '../../../..';
-const sharedDir = `${baseDir}/node-common`;
-const sharedHandlerDir = `${sharedDir}/handlers`;
-const sharePublicDir = `${sharedDir}/public`;
-const faker = require(`${sharePublicDir}/test/util/faker.js`);
-const utils = require(`${sharedHandlerDir}/util/common.js`);
-
-utils.includeUtils({});
+const { faker } = require('../util');
 
 const timeout = 1000000;
 
@@ -25,7 +18,7 @@ describe('Functionality Tests', () => {
           },
 
           (err) => {
-            console.log(err);
+            done.fail(err);
           },
 
           () => {
@@ -47,7 +40,7 @@ describe('Functionality Tests', () => {
           },
 
           (err) => {
-            console.log(err.message);
+            done.fail(err);
           },
 
           () => {
@@ -60,9 +53,9 @@ describe('Functionality Tests', () => {
     'Emit-Resume Test',
     (done) => {
       const loop = function (val) {
-        return rx.Observable.just(++val)
+        return rx.Observable.just(val)
           .filter(val => val <= 10)
-          .emitThenResume(val => loop(val))
+          .emitThenResume(val => loop(val + 1))
           .delay(10);
       };
 
@@ -72,11 +65,10 @@ describe('Functionality Tests', () => {
         },
 
         (err) => {
-          throw err;
+          done.fail(err);
         },
 
         () => {
-          console.log(done);
           done();
         });
     }, timeout);
@@ -101,7 +93,7 @@ describe('Functionality Tests', () => {
           },
 
           (err) => {
-            throw err;
+            done.fail(err);
           },
 
           () => {
@@ -157,7 +149,7 @@ describe('Functionality Tests', () => {
           },
 
           (err) => {
-            throw err;
+            done.fail(err);
           },
 
           () => {
@@ -165,7 +157,7 @@ describe('Functionality Tests', () => {
           });
     }, timeout);
 
-  it.only(
+  it(
     'Range test',
     (done) => {
       rx.Observable.range(1)

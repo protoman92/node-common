@@ -1,7 +1,7 @@
 const strings = {
-	// User strings
-	userErrorDoesNotExist : "userErrorDoesNotExist",
-	userErrorIncomplete : "userErrorIncomplete"
+  // User strings
+  userErrorDoesNotExist: 'userErrorDoesNotExist',
+  userErrorIncomplete: 'userErrorIncomplete',
 };
 
 module.exports = strings;
