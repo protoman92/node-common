@@ -1,3 +1,5 @@
+// @flow
+
 require('./collection.js');
 require('./number.js');
 require('./string.js');

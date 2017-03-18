@@ -1,3 +1,5 @@
+// @flow
+
 const { utils } = require('../../../lib/util');
 
 describe('Utitlity tests', () => {

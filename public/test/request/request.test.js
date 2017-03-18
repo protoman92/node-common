@@ -1,3 +1,5 @@
+// @flow
+
 const request = require('request');
 
 const requestTimeout = 100000;

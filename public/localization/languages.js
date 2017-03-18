@@ -1,3 +1,5 @@
+// @flow
+
 const { utils } = require('../../lib/util/common.js');
 
 const languages = {

@@ -1,3 +1,5 @@
+// @flow
+
 const rx = require('rx');
 
 const { faker } = require('../util');

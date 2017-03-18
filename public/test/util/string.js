@@ -1,3 +1,5 @@
+// @flow
+
 String.randomString = function (length) {
   const all = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 

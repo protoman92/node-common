@@ -1,3 +1,5 @@
+// @flow
+
 /**
  * Produce a {@link Number} that lies between two specific
  * values.
