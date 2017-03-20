@@ -1,0 +1,3 @@
+// @flow
+
+require('./setup.js');
