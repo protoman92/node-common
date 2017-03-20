@@ -4,11 +4,7 @@ const { utils } = require('../../../lib/util');
 
 describe('Utitlity tests', () => {
   it(
-<<<<<<< HEAD
     'OneFromEach Test',
-=======
-    'OneForEach test',
->>>>>>> 2472152d8eddd48c5d3b77cca7f87c4e45e239f4
     () => {
       const a = [1, 2, 3];
       const b = Number.range(a.last() + 1, a.last() + a.length + 2);
@@ -24,11 +20,7 @@ describe('Utitlity tests', () => {
     });
 
   it(
-<<<<<<< HEAD
     'RangeRandomBetween Test',
-=======
-    'RangeRandomBetweenTest',
->>>>>>> 2472152d8eddd48c5d3b77cca7f87c4e45e239f4
     () => {
       const count = 1000;
       const from = 1000;
@@ -36,7 +28,6 @@ describe('Utitlity tests', () => {
       const numbers = Number.rangeRandomBetween(count, from, to);
       expect(numbers.length).toBe(count);
       expect(numbers.every(val => val >= from && val <= to)).toBe(true);
-<<<<<<< HEAD
     });
 
   it(
@@ -63,10 +54,6 @@ describe('Utitlity tests', () => {
        */
       testUnify([{ a: 1, b: 2 }, { c: 3, d: 4 }, { e: 5, f: 6 }]);
     });
-=======
-    },
-  );
->>>>>>> 2472152d8eddd48c5d3b77cca7f87c4e45e239f4
 });
 
 /**
