@@ -3,8 +3,6 @@
 const faker = require('faker');
 const uuid = require('uuid/v4');
 
-const main = exports;
-
 exports.amount = function () {
   return parseFloat(faker.finance.amount());
 };
@@ -23,6 +21,10 @@ exports.lastName = function () {
 
 exports.email = function () {
   return faker.internet.email();
+};
+
+exports.number = function () {
+  return faker.random.number();
 };
 
 exports.phoneExtension = function () {

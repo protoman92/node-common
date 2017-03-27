@@ -174,4 +174,17 @@ describe('Functionality Tests', () => {
           },
         );
     }, timeout);
+
+  it.only(
+    'From test',
+    (done) => {
+      rx.Observable.fromObject({ a: 2, b: 2 })
+        .logNext()
+        .subscribe(
+          () => {},
+          () => {},
+          () => {
+            done();
+          });
+    }, timeout);
 });
