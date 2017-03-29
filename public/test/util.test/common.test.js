@@ -1,6 +1,25 @@
-// @flow
-
 const { utils } = require('../../../lib/util');
+
+function MockObject() {
+  this.x = 1;
+  this.y = 2;
+}
+
+MockObject.staticA = function () {
+  return new MockObject().a();
+};
+
+MockObject.staticB = function () {
+  return new MockObject().b();
+};
+
+MockObject.prototype.a = function () {
+  return this.x - this.y;
+};
+
+MockObject.prototype.b = function () {
+  return this.x + this.y;
+};
 
 describe('Utitlity tests', () => {
   it(
@@ -53,6 +72,29 @@ describe('Utitlity tests', () => {
        * Unified objects.
        */
       testUnify([{ a: 1, b: 2 }, { c: 3, d: 4 }, { e: 5, f: 6 }]);
+    });
+
+  it(
+    'Prototype Test',
+    () => {
+      const obj = new MockObject();
+      obj.b();
+    });
+
+  it.only(
+    'Prototype Test with indirect method access',
+    () => {
+      const api = {
+        staticA: MockObject.staticA.bind(MockObject),
+        staticB: MockObject.staticB.bind(MockObject),
+        a: obj => obj.a.bind(obj),
+        b: obj => obj.b.bind(obj),
+      };
+
+      console.log(api.staticA());
+      console.log(api.staticB());
+      console.log(api.a(new MockObject())());
+      console.log(api.b(new MockObject())());
     });
 });
 

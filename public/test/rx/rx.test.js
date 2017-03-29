@@ -1,7 +1,4 @@
-// @flow
-
 const rx = require('rx');
-
 const { faker } = require('../util');
 
 const timeout = 1000000;
@@ -56,8 +53,8 @@ describe('Functionality Tests', () => {
     (done) => {
       const loop = function (val) {
         return rx.Observable.just(val)
-          .filter(val => val <= 10)
-          .emitThenResume(val => loop(val + 1))
+          .filter(a => a <= 10)
+          .emitThenResume(a => loop(a + 1))
           .delay(10);
       };
 
@@ -111,7 +108,7 @@ describe('Functionality Tests', () => {
 
       const searchDocuments = query => rx.Observable
         .just(query)
-        .map(query => documents.find(a => a.includes(query)))
+        .map(q => documents.find(a => a.includes(q)))
         .filter(item => item)
         /**
          * Even with a very small delay in subscription, we can
@@ -175,7 +172,7 @@ describe('Functionality Tests', () => {
         );
     }, timeout);
 
-  it.only(
+  it(
     'From test',
     (done) => {
       rx.Observable.fromObject({ a: 2, b: 2 })
@@ -186,5 +183,26 @@ describe('Functionality Tests', () => {
           () => {
             done();
           });
+    }, timeout);
+
+  it(
+    'if test',
+    (done) => {
+      rx.Observable.if(
+        () => true,
+        rx.Observable.just(45),
+        rx.Observable.create((observer) => {
+          console.log('False path');
+          observer.onNext(46);
+        }),
+      )
+      .subscribe(
+        (val) => {
+          console.log(val);
+        },
+        () => {},
+        () => {
+          done();
+        });
     }, timeout);
 });
