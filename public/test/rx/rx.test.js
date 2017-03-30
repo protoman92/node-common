@@ -186,13 +186,12 @@ describe('Functionality Tests', () => {
     }, timeout);
 
   it(
-    'if test',
+    'If test',
     (done) => {
       rx.Observable.if(
         () => true,
         rx.Observable.just(45),
         rx.Observable.create((observer) => {
-          console.log('False path');
           observer.onNext(46);
         }),
       )
@@ -205,4 +204,33 @@ describe('Functionality Tests', () => {
           done();
         });
     }, timeout);
+
+  it.only(
+    'From/Catch test',
+    (done) => {
+      const convert = (val) => {
+        if (val % 2 === 0) {
+          return rx.Observable.just(val);
+        }
+
+        return rx.Observable.throw(new Error());
+      };
+
+      rx.Observable.range(1, 100)
+        .flatMap(val => convert(val)
+        .catchSwitchToEmpty())
+        .last()
+        .subscribe(
+          (val) => {
+            console.log(val);
+          },
+          (err) => {
+            done.fail(err);
+          },
+          () => {
+            done();
+          },
+        );
+    },
+  );
 });
