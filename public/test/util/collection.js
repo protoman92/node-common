@@ -31,7 +31,6 @@ Array.prototype.randomIndex = function () {
  * @return {object} A random element from the Array.
  */
 Array.prototype.randomValue = function (args, ...rest) {
-  console.log(args, rest);
   const instance = this;
 
   const filter = (cond, def) => {
